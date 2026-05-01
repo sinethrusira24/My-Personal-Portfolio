@@ -875,6 +875,17 @@ footer {
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
+    #navbar {
+        width: 94%;
+        padding: 0.6rem 1.2rem;
+        top: 15px;
+    }
+
+    #navbar.scrolled {
+        padding: 0.5rem 1.2rem;
+        top: 10px;
+    }
+
     .nav-container {
         gap: 1rem;
     }
@@ -910,17 +921,20 @@ footer {
         gap: 0.5rem;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.35s;
-        border: 1px solid var(--border-color);
+        transition: all 0.35s ease;
+        border: 1px solid transparent;
         border-radius: 20px;
         box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         opacity: 0;
+        visibility: hidden;
     }
 
     #navbar.nav-open .nav-links {
-        max-height: 300px;
+        max-height: 350px;
         padding: 1.5rem 0;
         opacity: 1;
+        visibility: visible;
+        border-color: var(--border-color);
     }
 
     .nav-links a::after {

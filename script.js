@@ -4,33 +4,35 @@ const sections = document.querySelectorAll('section, header');
 const navLinks = document.querySelectorAll('.nav-links a');
 
 let isScrolling = false;
+let lastActive = '';
 
 window.addEventListener('scroll', () => {
     if (!isScrolling) {
         window.requestAnimationFrame(() => {
             // Navbar background
             if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+                if (!navbar.classList.contains('scrolled')) navbar.classList.add('scrolled');
             } else {
-                navbar.classList.remove('scrolled');
+                if (navbar.classList.contains('scrolled')) navbar.classList.remove('scrolled');
             }
 
             // Active Navigation Highlighting
             let current = '';
             sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                // Adjust the offset value (200) to trigger earlier or later
-                if (window.scrollY >= (sectionTop - 200)) {
+                if (window.scrollY >= (section.offsetTop - 200)) {
                     current = section.getAttribute('id');
                 }
             });
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
+            if (current !== lastActive) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+                lastActive = current;
+            }
 
             isScrolling = false;
         });

@@ -3,31 +3,40 @@ const navbar = document.getElementById('navbar');
 const sections = document.querySelectorAll('section, header');
 const navLinks = document.querySelectorAll('.nav-links a');
 
+let isScrolling = false;
+
 window.addEventListener('scroll', () => {
-    // Navbar background
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
+    if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+            // Navbar background
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Active Navigation Highlighting
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                // Adjust the offset value (200) to trigger earlier or later
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            isScrolling = false;
+        });
+        isScrolling = true;
     }
-
-    // Active Navigation Highlighting
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        // Adjust the offset value (200) to trigger earlier or later
-        if (window.scrollY >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
+}, { passive: true });
 
 const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
 if (mobileMenuToggle) {

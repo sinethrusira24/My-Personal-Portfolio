@@ -340,6 +340,7 @@ h3 {
     font-size: 1.2rem;
     text-decoration: none;
     transition: all 0.3s ease;
+    will-change: transform, box-shadow, color;
 }
 
 .social-icon:hover {
@@ -385,6 +386,7 @@ h3 {
     align-items: center;
     transition: all 0.4s ease;
     cursor: pointer;
+    will-change: transform, box-shadow, border-color;
 }
 
 .glass-panel:hover {
@@ -480,6 +482,156 @@ h3 {
     background: var(--accent-glow);
     border-color: var(--accent-primary);
     text-shadow: 0 0 5px #fff;
+}
+
+/* --- Timeline Section --- */
+#experience {
+    padding: 6rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+/* The vertical line */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--accent-primary), transparent);
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timeline-item:nth-child(odd) {
+    flex-direction: row-reverse;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: var(--bg-main);
+    border: 3px solid var(--accent-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-glow);
+    z-index: 2;
+    transition: all 0.3s ease;
+    will-change: transform, background-color;
+}
+
+.timeline-item:hover .timeline-dot {
+    background: var(--accent-primary);
+    transform: translate(-50%, -50%) scale(1.3);
+}
+
+.timeline-content {
+    width: 45%;
+    padding: 1.5rem 2rem;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+/* Override glass-panel row direction specifically for timeline */
+.timeline-item:nth-child(odd) .timeline-content {
+    text-align: right;
+    align-items: flex-end;
+}
+
+.timeline-date {
+    display: inline-block;
+    color: var(--accent-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.timeline-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+    color: var(--text-main);
+}
+
+.timeline-institution {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.timeline-item:nth-child(odd) .timeline-institution {
+    flex-direction: row-reverse;
+}
+
+.timeline-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* Mobile responsive timeline inside main timeline CSS */
+@media (max-width: 768px) {
+    .timeline-container::before {
+        left: 20px;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .timeline-item:nth-child(odd) {
+        flex-direction: column;
+    }
+
+    .timeline-dot {
+        left: 20px;
+        top: 30px;
+    }
+
+    .timeline-item:hover .timeline-dot {
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+
+    .timeline-content {
+        width: calc(100% - 50px);
+        margin-left: 50px;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-institution {
+        flex-direction: row;
+    }
 }
 
 /* --- Skills Section --- */

@@ -56,10 +56,15 @@
                 I make meaningful and delightful digital products that create an equilibrium between user needs and business goals.
             </p>
 
+            <div class="hero-buttons">
+                <a href="resume.pdf" class="btn-glow btn-primary" download>Download Resume</a>
+                <a href="#projects" class="btn-glow">See Work</a>
+            </div>
+
             <div class="social-links">
-                <a href="https://facebook.com/yourprofile" target="_blank" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://github.com/yourusername" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.facebook.com/sineth.rusira" target="_blank" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.linkedin.com/in/sineth-rusira-7215752a3/" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/sinethrusira24" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
             </div>
         </div>
     </header>
@@ -132,7 +137,7 @@
     <section id="profiles" class="reveal">
         <h2 class="section-title text-center">My Digital Footprint</h2>
         <div class="profiles-container">
-            <a href="https://github.com/yourusername" target="_blank" class="profile-card github-card">
+            <a href="https://github.com/sinethrusira24" target="_blank" class="profile-card github-card">
                 <div class="card-glow"></div>
                 <i class="fab fa-github profile-icon"></i>
                 <h3>GitHub</h3>
@@ -140,7 +145,7 @@
                 <span class="profile-link-text">View Profile <i class="fas fa-arrow-right"></i></span>
             </a>
 
-            <a href="https://linkedin.com/in/yourprofile" target="_blank" class="profile-card linkedin-card">
+            <a href="https://www.linkedin.com/in/sineth-rusira" target="_blank" class="profile-card linkedin-card">
                 <div class="card-glow"></div>
                 <i class="fab fa-linkedin-in profile-icon"></i>
                 <h3>LinkedIn</h3>
@@ -153,15 +158,18 @@
     <section id="contact" class="reveal">
         <h2 class="section-title text-center">Send a Message</h2>
         <div class="contact-container">
-            <form id="contact-form" class="glass-panel contact-form">
+            <!-- Replace YOUR_FORM_ID with your real Formspree form ID after creating the form at https://formspree.io -->
+            <form id="contact-form" class="glass-panel contact-form" action="https://formspree.io/f/mjglvjko" method="POST">
+                <input type="hidden" name="_subject" value="New portfolio message">
+                <div id="form-message" class="form-message" aria-live="polite"></div>
                 <div class="input-group">
-                    <input type="text" id="name" placeholder="Your Name" required>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
                 </div>
                 <div class="input-group">
-                    <input type="email" id="email" placeholder="Your Email" required>
+                    <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
                 </div>
                 <div class="input-group">
-                    <textarea id="message" rows="5" placeholder="How can I help you?" required></textarea>
+                    <textarea id="message" name="message" rows="5" placeholder="How can I help you?" required></textarea>
                 </div>
                 <button type="submit" class="btn-glow submit-btn">Send Message <i class="fas fa-paper-plane"></i></button>
             </form>
@@ -172,9 +180,9 @@
         <div class="footer-content">
             <p>&copy; 2026 Sineth Rusira</p>
             <div class="footer-socials">
-                <a href="https://facebook.com/yourprofile" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://facebook.com/sineth.rusira" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.linkedin.com/in/sineth-rusira" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/sinethrusira24" target="_blank"><i class="fab fa-github"></i></a>
             </div>
         </div>
     </footer>

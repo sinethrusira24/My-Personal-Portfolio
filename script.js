@@ -85,14 +85,57 @@ function deletingEffect() {
 // --- Contact Form Handler ---
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevents the page from refreshing
-        
-        // Show a success message (you can style this better later if you want)
-        alert("Thanks for reaching out! Your message has been sent.");
-        
-        // Clear the form inputs
-        contactForm.reset();
+    const formMessage = document.getElementById('form-message');
+    const submitButton = contactForm.querySelector('.submit-btn');
+
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        if (!formMessage || !submitButton) return;
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        const formData = new FormData(contactForm);
+        const endpoint = contactForm.action;
+
+        if (endpoint.includes('YOUR_FORM_ID') || endpoint.includes('yourformid')) {
+            formMessage.textContent = 'Please replace YOUR_FORM_ID with your Formspree form ID in index.html.';
+            formMessage.className = 'form-message error';
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
+            return;
+        }
+
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                formMessage.textContent = 'Thanks for reaching out! Redirecting to confirmation...';
+                formMessage.className = 'form-message success';
+                contactForm.reset();
+                setTimeout(() => {
+                    window.location.href = 'thank-you.html';
+                }, 1500);
+            } else {
+                const data = await response.json();
+                let message = 'Oops! Something went wrong. Please try again.';
+                if (data && data.error) message = data.error;
+                formMessage.textContent = message;
+                formMessage.className = 'form-message error';
+            }
+        } catch (error) {
+            formMessage.textContent = 'Network error. Please try again later.';
+            formMessage.className = 'form-message error';
+        } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
+        }
     });
 }
 

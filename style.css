@@ -201,11 +201,109 @@ h1, h2, h3 { font-weight: 600; }
     border-radius: 8px; color: var(--text-main); font-family: inherit; font-size: 1rem;
     transition: all 0.3s ease;
 }
-.input-group input:focus, .input-group textarea:focus {
+..input-group input:focus, .input-group textarea:focus {
     outline: none; border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow);
     background: rgba(0, 0, 0, 0.5);
 }
+
+.form-message {
+    min-height: 1.5rem;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.form-message.success { color: #a8ff90; }
+.form-message.error { color: #f97316; }
+
 .submit-btn { background: transparent; cursor: pointer; font-size: 1rem; padding: 0.8rem 2rem; width: 100%; border-radius: 8px; }
+
+.submit-btn[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons .btn-glow {
+    min-width: 160px;
+    padding: 0.9rem 1.4rem;
+}
+
+.btn-primary {
+    background: var(--accent-primary);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn-primary:hover {
+    background: #c084fc;
+}
+
+#back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    background: rgba(168, 85, 247, 0.9);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1100;
+}
+
+#back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.thank-you-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: radial-gradient(circle at top, rgba(168, 85, 247, 0.12), transparent 35%), var(--bg-main);
+}
+
+.thank-you-card {
+    max-width: 560px;
+    text-align: center;
+    padding: 3rem 2.5rem;
+    border-radius: 28px;
+    background: rgba(15, 10, 25, 0.85);
+    border: 1px solid rgba(168, 85, 247, 0.18);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+}
+
+.thank-you-card h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+}
+
+.thank-you-card p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.thank-you-card .btn-glow {
+    padding: 0.9rem 1.8rem;
+}
 
 /* --- Footer --- */
 /* Adjusted padding to remove the extra space at the very bottom */

@@ -4,7 +4,6 @@ const sections = document.querySelectorAll('section, header');
 const navLinks = document.querySelectorAll('.nav-links a');
 
 let isScrolling = false;
-let lastActive = '';
 
 window.addEventListener('scroll', () => {
     if (!isScrolling) {
@@ -15,30 +14,36 @@ window.addEventListener('scroll', () => {
             } else {
                 if (navbar.classList.contains('scrolled')) navbar.classList.remove('scrolled');
             }
-
-            // Active Navigation Highlighting
-            let current = '';
-            sections.forEach(section => {
-                if (window.scrollY >= (section.offsetTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            if (current !== lastActive) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) {
-                        link.classList.add('active');
-                    }
-                });
-                lastActive = current;
-            }
-
             isScrolling = false;
         });
         isScrolling = true;
     }
 }, { passive: true });
+
+// Active Navigation Highlighting with IntersectionObserver for better performance
+const navObserverOptions = {
+    root: null,
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+};
+
+const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const currentId = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+}, navObserverOptions);
+
+sections.forEach(section => {
+    navObserver.observe(section);
+});
 
 const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
 if (mobileMenuToggle) {

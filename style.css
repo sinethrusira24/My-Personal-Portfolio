@@ -62,6 +62,8 @@ body {
     z-index: -1;
     border-radius: 50%;
     pointer-events: none;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .glow-top {
@@ -387,6 +389,8 @@ h3 {
     transition: all 0.4s ease;
     cursor: pointer;
     will-change: transform, box-shadow, border-color;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .glass-panel:hover {
@@ -800,6 +804,8 @@ h3 {
     width: max-content;
     animation: scroll-marquee 15s linear infinite;
     padding: 0 2rem;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .tech-icons-marquee:hover {
@@ -942,18 +948,139 @@ h3 {
 }
 
 /* --- Contact Section --- */
-/* Reduced bottom padding to fix the extra space issue */
 #contact {
-    padding: 3rem 2rem 2rem;
-    max-width: 600px;
+    padding: 6rem 2rem;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
-.contact-form {
+.contact-split-container {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+}
+
+.contact-left {
+    flex: 1;
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
+}
+
+.contact-heading {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+.contact-subheading {
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+}
+
+.social-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.social-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: rgba(25, 15, 35, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.social-box:hover {
+    background: rgba(40, 20, 60, 0.6);
+    border-color: var(--accent-primary);
+    transform: translateY(-3px);
+}
+
+.social-box i {
+    font-size: 1.8rem;
+}
+
+.social-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.social-text strong {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.social-text span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
+}
+
+.contact-info-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a.contact-info-row:hover {
+    color: var(--accent-primary);
+}
+
+a.contact-info-row:hover .info-icon {
+    background: rgba(168, 85, 247, 0.2);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.info-icon {
+    width: 35px;
+    height: 35px;
+    background: rgba(168, 85, 247, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--accent-light);
+}
+
+.contact-right {
+    flex: 1;
+    width: 100%;
+}
+
+.contact-form-wrapper {
     padding: 2.5rem;
+    border-radius: 20px;
+    background: rgba(20, 15, 25, 0.6);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+}
+
+.form-heading {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .input-group input,
@@ -984,6 +1111,10 @@ h3 {
     margin-bottom: 1rem;
 }
 
+.form-message:empty {
+    display: none;
+}
+
 .form-message.success {
     color: #a8ff90;
 }
@@ -994,16 +1125,49 @@ h3 {
 
 .submit-btn {
     background: transparent;
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
     cursor: pointer;
-    font-size: 1rem;
-    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 1rem;
     width: 100%;
     border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 0 5px rgba(168, 85, 247, 0.15);
+}
+
+.submit-btn:hover {
+    background: var(--accent-primary);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px);
 }
 
 .submit-btn[disabled] {
     opacity: 0.7;
     cursor: not-allowed;
+    pointer-events: none;
+}
+
+@media (max-width: 900px) {
+    .contact-split-container {
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .social-grid {
+        grid-template-columns: 1fr;
+    }
+    .contact-heading {
+        font-size: 2.8rem;
+    }
 }
 
 .hero-buttons {

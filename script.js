@@ -47,15 +47,44 @@ sections.forEach(section => {
 
 const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
 if (mobileMenuToggle) {
-    mobileMenuToggle.addEventListener('click', () => {
+    const toggleIcon = mobileMenuToggle.querySelector('i');
+
+    function closeMobileMenu() {
+        navbar.classList.remove('nav-open');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        if (toggleIcon) {
+            toggleIcon.className = 'fas fa-bars';
+        }
+    }
+
+    mobileMenuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         const isOpen = navbar.classList.toggle('nav-open');
         mobileMenuToggle.setAttribute('aria-expanded', isOpen.toString());
+        if (toggleIcon) {
+            toggleIcon.className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+        }
+    });
+
+    // Close mobile menu when a nav link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navbar.classList.contains('nav-open')) {
+                closeMobileMenu();
+            }
+        });
+    });
+
+    // Close when clicking outside navbar
+    document.addEventListener('click', (e) => {
+        if (navbar.classList.contains('nav-open') && !navbar.contains(e.target)) {
+            closeMobileMenu();
+        }
     });
 
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768 && navbar.classList.contains('nav-open')) {
-            navbar.classList.remove('nav-open');
-            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            closeMobileMenu();
         }
     });
 }

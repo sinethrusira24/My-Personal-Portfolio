@@ -265,280 +265,151 @@ function initStatsCounter() {
     statsObserver.observe(statsSection);
 }
 
-// --- Animated ASCII Name Banner ---
-function initAsciiName() {
-    const canvas = document.getElementById('ascii-name-canvas');
-    const container = document.getElementById('ascii-name-section');
-    if (!canvas || !container) return;
+// --- Auto-Generating ASCII Art Name Animation (Blackbox.ai / Reference Style) ---
+function initASCII() {
+    const asciiCanvas = document.getElementById('ascii-canvas');
+    if (!asciiCanvas) return;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const FONT = {
-        S: [' ###### ', '###  ###', '###     ', '###     ', ' ###### ', '  ######', '     ###', '     ###', '###  ###', ' ###### '],
-        I: ['#######', '  ###  ', '  ###  ', '  ###  ', '  ###  ', '  ###  ', '  ###  ', '  ###  ', '  ###  ', '#######'],
-        N: ['###   ###', '####  ###', '##### ###', '## ######', '## ######', '##  #####', '##   ####', '##    ###', '##     ##', '##     ##'],
-        E: ['########', '###     ', '###     ', '###     ', '####### ', '####### ', '###     ', '###     ', '###     ', '########'],
-        T: ['#########', '   ###   ', '   ###   ', '   ###   ', '   ###   ', '   ###   ', '   ###   ', '   ###   ', '   ###   ', '   ###   '],
-        H: ['###   ###', '###   ###', '###   ###', '###   ###', '#########', '#########', '###   ###', '###   ###', '###   ###', '###   ###'],
-        R: ['######## ', '###   ###', '###   ###', '###   ###', '######## ', '#######  ', '###  ### ', '###   ###', '###   ###', '###   ###'],
-        U: ['###   ###', '###   ###', '###   ###', '###   ###', '###   ###', '###   ###', '###   ###', '###   ###', ' ####### ', '  #####  '],
-        A: ['  #####  ', ' ####### ', ' ### ### ', ' ### ### ', '###   ###', '#########', '#########', '###   ###', '###   ###', '###   ###']
-    };
-
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#@$%&*+-=<>{}[]/?!~;:|^_';
-    const accentColors = ['#f97316', '#ea580c', '#fb923c', '#d97706', '#fdba74'];
-
-    let grid = [];
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let cellW = 7;
-    let cellH = 11;
+    const ctx = asciiCanvas.getContext('2d', { willReadFrequently: true });
+    let particles = [];
     let isVisible = false;
     let animId = null;
-    let mouse = { x: -1000, y: -1000, active: false };
 
-    function buildGrid() {
-        const rect = container.getBoundingClientRect();
-        width = Math.floor(rect.width) || window.innerWidth;
-        const isMobile = width < 720;
-        height = canvas.clientHeight || (isMobile ? (width < 420 ? 165 : 180) : 140);
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function buildASCII() {
+        const parent = asciiCanvas.parentElement;
+        if (!parent) return;
 
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
+        asciiCanvas.width = parent.clientWidth;
+        asciiCanvas.height = parent.clientHeight;
 
-        const words = [['S', 'I', 'N', 'E', 'T', 'H'], ['R', 'U', 'S', 'I', 'R', 'A']];
-        const letterGap = 2;
-        const wordGap = 6;
-        const lineGap = 3;
-        const letterHeight = 10;
+        if (asciiCanvas.width <= 0 || asciiCanvas.height <= 0) return;
 
-        grid = [];
+        // Create an offscreen canvas to measure and draw the text
+        const offscreen = document.createElement('canvas');
+        const offCtx = offscreen.getContext('2d', { willReadFrequently: true });
+        offscreen.width = asciiCanvas.width;
+        offscreen.height = asciiCanvas.height;
 
-        if (!isMobile) {
-            let totalCols = 0;
-            words.forEach((w, wIdx) => {
-                w.forEach((ch, cIdx) => {
-                    totalCols += FONT[ch][0].length;
-                    if (cIdx < w.length - 1) totalCols += letterGap;
-                });
-                if (wIdx < words.length - 1) totalCols += wordGap;
-            });
+        // Adjust font size based on screen width for responsiveness without clipping
+        const isMobile = window.innerWidth < 768;
+        const isSmallMobile = window.innerWidth < 420;
+        const fontSize = isSmallMobile ? 40 : (isMobile ? 50 : (window.innerWidth < 1024 ? 90 : 130));
 
-            cellW = Math.min(8.5, Math.max(5, (width - 40) / totalCols));
-            cellH = cellW * 1.5;
-            const totalW = totalCols * cellW;
-            const totalH = letterHeight * cellH;
-            const startX = (width - totalW) / 2;
-            const startY = (height - totalH) / 2;
+        // Draw the text internally using Space Mono font
+        offCtx.font = `bold ${fontSize}px "Space Mono", monospace`;
+        offCtx.fillStyle = 'white';
+        offCtx.textAlign = 'center';
+        offCtx.textBaseline = 'middle';
 
-            let curCol = 0;
-            words.forEach((w) => {
-                w.forEach((ch, cIdx) => {
-                    const matrix = FONT[ch];
-                    const wLen = matrix[0].length;
-                    for (let r = 0; r < letterHeight; r++) {
-                        for (let c = 0; c < wLen; c++) {
-                            if (matrix[r][c] === '#') {
-                                const isAccent = Math.random() < 0.022;
-                                grid.push({
-                                    x: startX + (curCol + c) * cellW + cellW / 2,
-                                    y: startY + r * cellH + cellH / 2,
-                                    char: chars[Math.floor(Math.random() * chars.length)],
-                                    timer: Math.floor(Math.random() * 25),
-                                    interval: 16 + Math.floor(Math.random() * 32),
-                                    isAccent: isAccent,
-                                    accentColor: accentColors[Math.floor(Math.random() * accentColors.length)],
-                                    baseAlpha: (curCol + c + r) % 3 === 0 ? 0.22 : 0.28
-                                });
-                            }
-                        }
-                    }
-                    curCol += wLen + (cIdx < w.length - 1 ? letterGap : 0);
-                });
-                curCol += wordGap;
-            });
+        // Stack words on mobile, side-by-side on desktop
+        if (isMobile) {
+            offCtx.fillText('SINETH', offscreen.width / 2, offscreen.height / 2 - 25);
+            offCtx.fillText('RUSIRA', offscreen.width / 2, offscreen.height / 2 + 35);
         } else {
-            // Mobile: 2 lines
-            const line0Cols = words[0].reduce((acc, ch, i) => acc + FONT[ch][0].length + (i < words[0].length - 1 ? letterGap : 0), 0);
-            const line1Cols = words[1].reduce((acc, ch, i) => acc + FONT[ch][0].length + (i < words[1].length - 1 ? letterGap : 0), 0);
-            const maxCols = Math.max(line0Cols, line1Cols);
+            offCtx.fillText('SINETH RUSIRA', offscreen.width / 2, offscreen.height / 2);
+        }
 
-            cellW = Math.min(7.5, Math.max(4.2, (width - 24) / maxCols));
-            cellH = cellW * 1.5;
-            const totalH = (letterHeight * 2 + lineGap) * cellH;
-            const startY = (height - totalH) / 2;
+        // Scan the offscreen canvas for non-transparent pixels
+        const imgData = offCtx.getImageData(0, 0, offscreen.width, offscreen.height).data;
+        particles = [];
 
-            [words[0], words[1]].forEach((w, lineIdx) => {
-                const lineCols = lineIdx === 0 ? line0Cols : line1Cols;
-                const startX = (width - lineCols * cellW) / 2;
-                const lineStartY = startY + lineIdx * (letterHeight + lineGap) * cellH;
-                let curCol = 0;
-                w.forEach((ch, cIdx) => {
-                    const matrix = FONT[ch];
-                    const wLen = matrix[0].length;
-                    for (let r = 0; r < letterHeight; r++) {
-                        for (let c = 0; c < wLen; c++) {
-                            if (matrix[r][c] === '#') {
-                                const isAccent = Math.random() < 0.022;
-                                grid.push({
-                                    x: startX + (curCol + c) * cellW + cellW / 2,
-                                    y: lineStartY + r * cellH + cellH / 2,
-                                    char: chars[Math.floor(Math.random() * chars.length)],
-                                    timer: Math.floor(Math.random() * 25),
-                                    interval: 16 + Math.floor(Math.random() * 32),
-                                    isAccent: isAccent,
-                                    accentColor: accentColors[Math.floor(Math.random() * accentColors.length)],
-                                    baseAlpha: (curCol + c + r) % 3 === 0 ? 0.22 : 0.28
-                                });
-                            }
-                        }
-                    }
-                    curCol += wLen + (cIdx < w.length - 1 ? letterGap : 0);
-                });
-            });
+        // Spacing between ASCII characters (larger on mobile for 60fps GPU performance)
+        const gridSize = isMobile ? 8 : 6;
+        const chars = ['0', '1', '{', '}', '<', '>'];
+
+        for (let y = 0; y < offscreen.height; y += gridSize) {
+            for (let x = 0; x < offscreen.width; x += gridSize) {
+                const index = (y * offscreen.width + x) * 4;
+                const alpha = imgData[index + 3];
+
+                // If pixel is visible, add a particle data point
+                if (alpha > 128) {
+                    particles.push({
+                        x: x,
+                        y: y,
+                        char: chars[Math.floor(Math.random() * chars.length)],
+                        // 3% chance for the particle to inherit Neon Orange
+                        color: Math.random() > 0.97 ? '#FF5C00' : '#71717A'
+                    });
+                }
+            }
         }
     }
 
-    let lastDraw = 0;
-    const fpsInterval = 1000 / 22; // Calm 22 FPS matrix cadence
-
-    function render(now) {
+    function animateASCII() {
         if (!isVisible) return;
-        animId = requestAnimationFrame(render);
+        animId = requestAnimationFrame(animateASCII);
 
-        const elapsed = now - lastDraw;
-        if (elapsed < fpsInterval) return;
-        lastDraw = now - (elapsed % fpsInterval);
+        ctx.clearRect(0, 0, asciiCanvas.width, asciiCanvas.height);
 
-        ctx.save();
-        ctx.scale(dpr, dpr);
-        ctx.clearRect(0, 0, width, height);
-
-        const fontSize = Math.max(7.5, Math.floor(cellH * 0.95));
-        ctx.font = `700 ${fontSize}px "Courier New", monospace`;
+        // Render the particles using JetBrains Mono font
+        ctx.font = 'bold 7px "JetBrains Mono", monospace';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        for (let i = 0; i < grid.length; i++) {
-            const cell = grid[i];
+        const time = Date.now() / 1000;
 
-            cell.timer++;
-            if (cell.timer >= cell.interval) {
-                cell.timer = 0;
-                cell.char = chars[Math.floor(Math.random() * chars.length)];
-                if (Math.random() < 0.03) {
-                    cell.isAccent = !cell.isAccent;
-                }
+        particles.forEach(p => {
+            // Smooth left-to-right scanning wave effect based on time and X-axis
+            const wave = Math.sin(p.x * 0.01 + time * 2) * 0.5 + 0.5;
+            ctx.globalAlpha = 0.2 + wave * 0.8;
+            ctx.fillStyle = p.color;
+
+            // Randomly change 4% of the characters every frame for matrix glitch effect
+            if (Math.random() < 0.04) {
+                const chars = ['0', '1', '{', '}', '<', '>'];
+                p.char = chars[Math.floor(Math.random() * chars.length)];
             }
 
-            // Check mouse interaction
-            let isHovered = false;
-            if (mouse.active) {
-                const dx = cell.x - mouse.x;
-                const dy = cell.y - mouse.y;
-                if (dx * dx + dy * dy < 1800) { // ~42px radius
-                    isHovered = true;
-                    if (Math.random() < 0.3) {
-                        cell.char = chars[Math.floor(Math.random() * chars.length)];
-                    }
-                }
-            }
-
-            if (isHovered) {
-                ctx.fillStyle = '#ffedd5';
-                ctx.shadowColor = 'rgba(249, 115, 22, 0.7)';
-                ctx.shadowBlur = 6;
-                ctx.fillText(cell.char, cell.x, cell.y);
-                ctx.shadowBlur = 0;
-            } else if (cell.isAccent) {
-                ctx.fillStyle = cell.accentColor;
-                ctx.shadowColor = 'rgba(234, 88, 12, 0.6)';
-                ctx.shadowBlur = 4;
-                ctx.fillText(cell.char, cell.x, cell.y);
-                ctx.shadowBlur = 0;
-            } else {
-                ctx.fillStyle = `rgba(215, 220, 235, ${cell.baseAlpha})`;
-                ctx.fillText(cell.char, cell.x, cell.y);
-            }
-        }
-
-        ctx.restore();
+            ctx.fillText(p.char, p.x, p.y);
+        });
     }
 
-    // Mouse movement interaction
-    canvas.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-        mouse.active = true;
-    });
+    // Wait for custom fonts to load before drawing to ensure accurate dimensions
+    const start = () => {
+        buildASCII();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!isVisible) {
+                        isVisible = true;
+                        buildASCII();
+                        animId = requestAnimationFrame(animateASCII);
+                    }
+                } else {
+                    isVisible = false;
+                    if (animId) {
+                        cancelAnimationFrame(animId);
+                        animId = null;
+                    }
+                }
+            });
+        }, { threshold: 0.05 });
 
-    canvas.addEventListener('mouseleave', () => {
-        mouse.active = false;
-        mouse.x = -1000;
-        mouse.y = -1000;
-    });
+        observer.observe(asciiCanvas.parentElement);
+    };
 
-    // Touch interaction for mobile
-    canvas.addEventListener('touchmove', (e) => {
-        if (e.touches.length > 0) {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.touches[0].clientX - rect.left;
-            mouse.y = e.touches[0].clientY - rect.top;
-            mouse.active = true;
-        }
-    }, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(start);
+    } else {
+        start();
+    }
 
-    canvas.addEventListener('touchend', () => {
-        mouse.active = false;
-        mouse.x = -1000;
-        mouse.y = -1000;
-    });
-
-    // Resize handling with debounce
-    let resizeTimer;
+    // Re-calculate the grid smoothly when the browser is resized
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            if (isVisible) {
-                buildGrid();
-            }
-        }, 150);
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            buildASCII();
+        }, 200);
     });
-
-    // IntersectionObserver to only animate when in view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                if (!isVisible) {
-                    isVisible = true;
-                    buildGrid();
-                    lastDraw = performance.now();
-                    animId = requestAnimationFrame(render);
-                }
-            } else {
-                isVisible = false;
-                if (animId) {
-                    cancelAnimationFrame(animId);
-                    animId = null;
-                }
-            }
-        });
-    }, {
-        threshold: 0.05
-    });
-
-    observer.observe(container);
 }
 
 // Start animations when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     typingEffect();
     initStatsCounter();
-    initAsciiName();
+    initASCII();
     const hero = document.getElementById('hero');
     if (hero) hero.classList.add('active');
 });

@@ -56,6 +56,112 @@ body {
     position: relative;
 }
 
+/* --- Animated Line-by-Line Hero Code Wallpaper --- */
+.code-wallpaper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5.5rem 3rem 3rem;
+    filter: blur(0.3px);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 78%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 78%, transparent 100%);
+}
+
+.code-wallpaper-inner {
+    width: 100%;
+    max-width: 1320px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    opacity: 1;
+    transition: opacity 1s ease;
+    mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, black 50%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, black 50%, transparent 100%);
+}
+
+.code-wallpaper-inner.cw-fadeout {
+    opacity: 0;
+}
+
+.code-wallpaper-pane {
+    margin: 0;
+    font-family: 'JetBrains Mono', 'Space Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: #cbd5e1;
+    white-space: normal;
+    text-align: left;
+    overflow: hidden;
+}
+
+.cw-line {
+    display: block;
+    white-space: pre;
+    min-height: 1.75em;
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    will-change: opacity, clip-path;
+}
+
+.cw-line.animate {
+    animation: cwLineWrite 2.2s ease-out forwards;
+}
+
+@keyframes cwLineWrite {
+    0% {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+    }
+    35% {
+        opacity: 0.21;
+        clip-path: inset(0 0% 0 0);
+    }
+    100% {
+        opacity: 0.085;
+        clip-path: inset(0 0% 0 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cw-line {
+        opacity: 0.085;
+        clip-path: inset(0 0% 0 0);
+        animation: none;
+    }
+}
+
+.cw-kw {
+    color: #c084fc;
+}
+
+.cw-ty {
+    color: #7dd3fc;
+}
+
+.cw-str {
+    color: #f472b6;
+}
+
+.cw-fn {
+    color: #d8b4fe;
+}
+
+.cw-num {
+    color: #fb923c;
+}
+
+.cw-cm {
+    color: #64748b;
+    font-style: italic;
+}
+
 /* Ambient Glow */
 .ambient-glow {
     position: fixed;
@@ -228,18 +334,25 @@ h3 {
 /* --- Hero Section --- */
 #hero {
     min-height: 100vh;
+    width: 100%;
+    max-width: none;
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding: 120px 2rem 4rem;
-    max-width: 800px;
     margin: 0 auto;
 }
 
 .hero-content {
     width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1818,6 +1931,23 @@ footer {
     .contact-split-container {
         flex-direction: column;
         gap: 2.5rem;
+    }
+
+    .code-wallpaper {
+        padding: 5.5rem 1.25rem 2.5rem;
+    }
+
+    .code-wallpaper-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .code-pane-secondary {
+        display: none;
+    }
+
+    .code-wallpaper-pane {
+        font-size: 0.72rem;
+        line-height: 1.65;
     }
 }
 

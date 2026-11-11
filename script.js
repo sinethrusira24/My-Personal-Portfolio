@@ -624,12 +624,107 @@ function initCommandPalette() {
     });
 }
 
+// --- Animated Line-by-Line Hero Code Wallpaper (Slow Loop) ---
+function initHeroCodeAnimation() {
+    const hero = document.getElementById('hero');
+    const inner = document.querySelector('#hero .code-wallpaper-inner');
+    const panes = document.querySelectorAll('#hero .code-wallpaper-pane');
+    if (!hero || !inner || panes.length === 0) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    let holdTimer = null;
+    let restartTimer = null;
+    let isHeroVisible = true;
+
+    function clearTimers() {
+        if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+        }
+        if (restartTimer) {
+            clearTimeout(restartTimer);
+            restartTimer = null;
+        }
+    }
+
+    function playCycle() {
+        clearTimers();
+        if (!isHeroVisible) return;
+
+        // Reset fade and line animations cleanly
+        inner.classList.remove('cw-fadeout');
+        panes.forEach((pane) => {
+            pane.querySelectorAll('.cw-line').forEach((line) => {
+                line.classList.remove('animate');
+                line.style.animationDelay = '0ms';
+            });
+        });
+
+        // Force reflow so CSS animations restart from 0%
+        void inner.offsetWidth;
+
+        let maxDelay = 0;
+
+        panes.forEach((pane, paneIndex) => {
+            if (paneIndex > 0 && window.getComputedStyle(pane).display === 'none') {
+                return;
+            }
+
+            const lines = pane.querySelectorAll('.cw-line');
+            let delay = paneIndex * 320;
+
+            lines.forEach((line) => {
+                line.style.animationDelay = `${delay}ms`;
+                line.classList.add('animate');
+                if (delay > maxDelay) maxDelay = delay;
+                delay += line.classList.contains('cw-blank') ? 60 : 270;
+            });
+        });
+
+        // Last line takes 2.2s to write + settle to faded finish; hold 2.5s then fade out & loop
+        const finishTime = maxDelay + 2200;
+        const holdDuration = 2500;
+
+        holdTimer = setTimeout(() => {
+            if (!isHeroVisible) return;
+            inner.classList.add('cw-fadeout');
+
+            restartTimer = setTimeout(() => {
+                if (isHeroVisible) {
+                    playCycle();
+                }
+            }, 1150);
+        }, finishTime + holdDuration);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                if (!isHeroVisible || (!holdTimer && !restartTimer)) {
+                    isHeroVisible = true;
+                    playCycle();
+                }
+            } else {
+                isHeroVisible = false;
+                clearTimers();
+            }
+        });
+    }, { threshold: 0.05 });
+
+    observer.observe(hero);
+    playCycle();
+}
+
 // Start animations when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     typingEffect();
     initStatsCounter();
     initASCII();
     initCommandPalette();
+    initHeroCodeAnimation();
     const hero = document.getElementById('hero');
     if (hero) hero.classList.add('active');
 });

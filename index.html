@@ -61,6 +61,73 @@
     </nav>
 
     <header id="hero" class="reveal">
+        <!-- Animated Line-by-Line Hero Code Wallpaper -->
+        <div class="code-wallpaper" aria-hidden="true">
+            <div class="code-wallpaper-inner">
+                <pre class="code-wallpaper-pane"><code>
+                    <span class="cw-line cw-cm">/**</span>
+                    <span class="cw-line cw-cm"> * @module SinethRusira</span>
+                    <span class="cw-line cw-cm"> * @description Software Engineering Undergraduate @ CINEC</span>
+                    <span class="cw-line cw-cm"> */</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line"><span class="cw-kw">export interface</span> <span class="cw-ty">EngineerProfile</span> {</span>
+                    <span class="cw-line">  <span class="cw-kw">readonly</span> name: <span class="cw-ty">string</span>;</span>
+                    <span class="cw-line">  <span class="cw-kw">readonly</span> role: <span class="cw-str">'FullStack'</span> | <span class="cw-str">'Backend'</span> | <span class="cw-str">'Architect'</span>;</span>
+                    <span class="cw-line">  <span class="cw-kw">readonly</span> university: <span class="cw-ty">string</span>;</span>
+                    <span class="cw-line">  <span class="cw-kw">readonly</span> philosophy: <span class="cw-ty">string</span>;</span>
+                    <span class="cw-line">  <span class="cw-kw">readonly</span> stack: <span class="cw-kw">readonly</span> <span class="cw-ty">string</span>[];</span>
+                    <span class="cw-line">}</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line"><span class="cw-kw">export const</span> developer: <span class="cw-ty">EngineerProfile</span> = {</span>
+                    <span class="cw-line">  name: <span class="cw-str">'Sineth Rusira'</span>,</span>
+                    <span class="cw-line">  role: <span class="cw-str">'FullStack'</span>,</span>
+                    <span class="cw-line">  university: <span class="cw-str">'CINEC Campus'</span>,</span>
+                    <span class="cw-line">  philosophy: <span class="cw-str">'Clean architecture meets delightful UX.'</span>,</span>
+                    <span class="cw-line">  stack: [<span class="cw-str">'Java'</span>, <span class="cw-str">'Python'</span>, <span class="cw-str">'PHP'</span>, <span class="cw-str">'TypeScript'</span>, <span class="cw-str">'MySQL'</span>],</span>
+                    <span class="cw-line">};</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line"><span class="cw-kw">export async function</span> <span class="cw-fn">buildFuture</span>(idea: <span class="cw-ty">Concept</span>): <span class="cw-ty">Promise</span>&lt;<span class="cw-ty">Product</span>&gt; {</span>
+                    <span class="cw-line">  <span class="cw-kw">const</span> blueprint = <span class="cw-kw">await</span> <span class="cw-ty">Architecture</span>.<span class="cw-fn">design</span>(idea, {</span>
+                    <span class="cw-line">    scalability: <span class="cw-str">'high'</span>,</span>
+                    <span class="cw-line">    maintainability: <span class="cw-str">'strict'</span>,</span>
+                    <span class="cw-line">  });</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line">  <span class="cw-kw">return</span> blueprint.<span class="cw-fn">compile</span>().<span class="cw-fn">deploy</span>({</span>
+                    <span class="cw-line">    performance: <span class="cw-num">100</span>,</span>
+                    <span class="cw-line">    craftsmanship: <span class="cw-num">true</span>,</span>
+                    <span class="cw-line">  });</span>
+                    <span class="cw-line">}</span>
+                </code></pre>
+
+                <pre class="code-wallpaper-pane code-pane-secondary"><code>
+                    <span class="cw-line"><span class="cw-kw">import</span> { <span class="cw-ty">System</span>, <span class="cw-ty">Database</span>, <span class="cw-ty">Security</span> } <span class="cw-kw">from</span> <span class="cw-str">'@core/foundation'</span>;</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line"><span class="cw-kw">export class</span> <span class="cw-ty">CleanArchitecture</span> <span class="cw-kw">extends</span> <span class="cw-ty">System</span> {</span>
+                    <span class="cw-line">  <span class="cw-kw">private readonly</span> experienceYears = <span class="cw-num">3</span>;</span>
+                    <span class="cw-line">  <span class="cw-kw">private readonly</span> shippedProjects = <span class="cw-num">8</span>;</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line">  <span class="cw-fn">constructor</span>(<span class="cw-kw">private readonly</span> db: <span class="cw-ty">Database</span>) {</span>
+                    <span class="cw-line">    <span class="cw-kw">super</span>({ strictMode: <span class="cw-num">true</span>, zeroTechDebt: <span class="cw-num">true</span> });</span>
+                    <span class="cw-line">  }</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line">  <span class="cw-kw">public async</span> <span class="cw-fn">solveProblem</span>&lt;<span class="cw-ty">T</span>&gt;(challenge: <span class="cw-ty">Challenge</span>&lt;<span class="cw-ty">T</span>&gt;): <span class="cw-ty">Promise</span>&lt;<span class="cw-ty">Solution</span>&gt; {</span>
+                    <span class="cw-line">    <span class="cw-kw">const</span> validated = <span class="cw-kw">await</span> <span class="cw-ty">Security</span>.<span class="cw-fn">sanitize</span>(challenge.input);</span>
+                    <span class="cw-line">    <span class="cw-kw">const</span> schema = <span class="cw-kw">this</span>.db.<span class="cw-fn">optimizeQuery</span>(validated);</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line">    <span class="cw-kw">while</span> (challenge.<span class="cw-fn">hasEdgeCases</span>()) {</span>
+                    <span class="cw-line">      <span class="cw-kw">this</span>.<span class="cw-fn">refactor</span>(schema, { patterns: [<span class="cw-str">'SOLID'</span>, <span class="cw-str">'DRY'</span>] });</span>
+                    <span class="cw-line">    }</span>
+                    <span class="cw-line cw-blank"></span>
+                    <span class="cw-line">    <span class="cw-kw">return this</span>.<span class="cw-fn">emitRelease</span>({</span>
+                    <span class="cw-line">      status: <span class="cw-str">'PRODUCTION_READY'</span>,</span>
+                    <span class="cw-line">      uptime: <span class="cw-num">99.99</span>,</span>
+                    <span class="cw-line">    });</span>
+                    <span class="cw-line">  }</span>
+                    <span class="cw-line">}</span>
+                </code></pre>
+            </div>
+        </div>
+
         <div class="hero-content">
             <div class="greeting">
                 <p>Hello! I Am <span class="highlight-text name-large">Sineth Rusira</span></p>

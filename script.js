@@ -405,11 +405,231 @@ function initASCII() {
     });
 }
 
+// --- Command Palette / Mini Terminal Controller ---
+function initCommandPalette() {
+    const overlay = document.getElementById('cmd-modal-overlay');
+    const triggerBtn = document.getElementById('cmd-trigger-btn');
+    const closeBtn = document.getElementById('cmd-close-btn');
+    const dotClose = document.getElementById('cmd-dot-close');
+    const form = document.getElementById('cmd-form');
+    const input = document.getElementById('cmd-input');
+    const output = document.getElementById('cmd-output');
+    const pills = document.querySelectorAll('.cmd-pill');
+
+    if (!overlay || !form || !input || !output) return;
+
+    let isOpen = false;
+
+    function openPalette() {
+        if (isOpen) return;
+        isOpen = true;
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+        setTimeout(() => {
+            input.focus();
+        }, 60);
+    }
+
+    function closePalette() {
+        if (!isOpen) return;
+        isOpen = false;
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        input.value = '';
+    }
+
+    // Toggle on Ctrl+K or Cmd+K
+    window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            if (isOpen) closePalette();
+            else openPalette();
+        } else if (e.key === 'Escape' && isOpen) {
+            e.preventDefault();
+            closePalette();
+        }
+    });
+
+    if (triggerBtn) triggerBtn.addEventListener('click', openPalette);
+    if (closeBtn) closeBtn.addEventListener('click', closePalette);
+    if (dotClose) dotClose.addEventListener('click', closePalette);
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closePalette();
+    });
+
+    function logLine(text, type = 'sys') {
+        const line = document.createElement('div');
+        line.className = `cmd-line ${type}`;
+        line.innerHTML = text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function executeCommand(rawCmd) {
+        const cmd = rawCmd.trim().toLowerCase();
+        if (!cmd) return;
+
+        logLine(`<span class="prompt">sineth:~$</span> ${escapeHTML(rawCmd)}`, 'user-input');
+
+        switch (cmd) {
+            case 'help':
+                logLine(`
+                    <div class="cmd-help-table">
+                        <span class="cmd-help-cmd">projects</span><span>Browse featured projects & architecture</span>
+                        <span class="cmd-help-cmd">skills</span><span>View technical skills & tools</span>
+                        <span class="cmd-help-cmd">journey</span><span>View education & career timeline</span>
+                        <span class="cmd-help-cmd">resume</span><span>Download Sineth's CV / Resume (PDF)</span>
+                        <span class="cmd-help-cmd">contact</span><span>Jump to contact & message form</span>
+                        <span class="cmd-help-cmd">email</span><span>Copy email address to clipboard</span>
+                        <span class="cmd-help-cmd">github</span><span>Open GitHub profile in new tab</span>
+                        <span class="cmd-help-cmd">linkedin</span><span>Open LinkedIn profile in new tab</span>
+                        <span class="cmd-help-cmd">whoami</span><span>Display current user identity</span>
+                        <span class="cmd-help-cmd">clear</span><span>Clear terminal screen</span>
+                        <span class="cmd-help-cmd">exit</span><span>Close this terminal</span>
+                    </div>
+                `, 'sys');
+                break;
+
+            case 'projects':
+            case 'work':
+                logLine('Navigating to Work Experience & Projects...', 'info');
+                setTimeout(() => {
+                    closePalette();
+                    const el = document.getElementById('projects');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 350);
+                break;
+
+            case 'skills':
+            case 'tech':
+                logLine('Navigating to Skills Network...', 'info');
+                setTimeout(() => {
+                    closePalette();
+                    const el = document.getElementById('skills');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 350);
+                break;
+
+            case 'journey':
+            case 'experience':
+            case 'education':
+                logLine('Navigating to Journey & Education timeline...', 'info');
+                setTimeout(() => {
+                    closePalette();
+                    const el = document.getElementById('experience');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 350);
+                break;
+
+            case 'contact':
+            case 'message':
+                logLine('Navigating to Contact section...', 'info');
+                setTimeout(() => {
+                    closePalette();
+                    const el = document.getElementById('contact');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 350);
+                break;
+
+            case 'home':
+            case 'hero':
+                logLine('Navigating to Top / Home...', 'info');
+                setTimeout(() => {
+                    closePalette();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 350);
+                break;
+
+            case 'resume':
+            case 'cv':
+                logLine('Initiating download of Sineth Poththawela - CV Resume.pdf...', 'success');
+                const link = document.createElement('a');
+                link.href = 'Sineth%20Poththawela%20-%20CV%20Resume.pdf';
+                link.download = 'Sineth Poththawela - CV Resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                logLine('✓ Download started!', 'success');
+                break;
+
+            case 'email':
+            case 'copy-email':
+                navigator.clipboard.writeText('sinethdsrs@gmail.com').then(() => {
+                    logLine('✓ Email copied to clipboard: sinethdsrs@gmail.com', 'success');
+                }).catch(() => {
+                    logLine('sinethdsrs@gmail.com', 'info');
+                });
+                break;
+
+            case 'github':
+                logLine('Opening GitHub profile in a new tab...', 'info');
+                window.open('https://github.com/sinethrusira24', '_blank', 'noopener,noreferrer');
+                break;
+
+            case 'linkedin':
+                logLine('Opening LinkedIn profile in a new tab...', 'info');
+                window.open('https://www.linkedin.com/in/sineth-rusira', '_blank', 'noopener,noreferrer');
+                break;
+
+            case 'whoami':
+                logLine('Guest User: An awesome developer, recruiter, or tech enthusiast exploring Sineth\'s portfolio! 🚀', 'highlight');
+                break;
+
+            case 'sudo':
+                logLine('Permission denied: You are not in the sudoers file. Nice try though! 😄', 'error');
+                break;
+
+            case 'clear':
+            case 'cls':
+                output.innerHTML = '';
+                logLine('<span class="cmd-sys-prefix">[SYSTEM]</span> Screen cleared. Type <span class="cmd-highlight">help</span> for commands.', 'sys');
+                break;
+
+            case 'exit':
+            case 'quit':
+            case 'close':
+                logLine('Closing terminal session...', 'sys');
+                setTimeout(closePalette, 250);
+                break;
+
+            default:
+                logLine(`Command not recognized: '${escapeHTML(cmd)}'. Type <span class="cmd-highlight">help</span> to view available commands.`, 'error');
+                break;
+        }
+
+        input.value = '';
+    }
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        }[tag] || tag));
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        executeCommand(input.value);
+    });
+
+    pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            const cmd = pill.getAttribute('data-cmd');
+            if (cmd) executeCommand(cmd);
+        });
+    });
+}
+
 // Start animations when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     typingEffect();
     initStatsCounter();
     initASCII();
+    initCommandPalette();
     const hero = document.getElementById('hero');
     if (hero) hero.classList.add('active');
 });

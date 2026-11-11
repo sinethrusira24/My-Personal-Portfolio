@@ -441,6 +441,58 @@
         </div>
     </footer>
 
+    <!-- Floating Command Palette Trigger Button -->
+    <button id="cmd-trigger-btn" class="cmd-trigger-btn" aria-label="Open Command Terminal (Ctrl+K)" title="Command Palette (Ctrl + K)">
+        <i class="fas fa-terminal"></i>
+        <span class="cmd-key-hint">Ctrl K</span>
+    </button>
+
+    <!-- Command Palette / Mini Terminal Modal -->
+    <div id="cmd-modal-overlay" class="cmd-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cmd-modal-title">
+        <div class="cmd-modal-container">
+            <div class="cmd-header">
+                <div class="cmd-window-dots">
+                    <span class="dot dot-close" id="cmd-dot-close" title="Close"></span>
+                    <span class="dot dot-minimize"></span>
+                    <span class="dot dot-maximize"></span>
+                </div>
+                <div class="cmd-title" id="cmd-modal-title">
+                    <i class="fas fa-terminal"></i> sineth@portfolio: ~ (Ctrl+K)
+                </div>
+                <button class="cmd-close-btn" id="cmd-close-btn" aria-label="Close Terminal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="cmd-quick-pills">
+                <span class="cmd-pill" data-cmd="projects"><i class="fas fa-laptop-code"></i> projects</span>
+                <span class="cmd-pill" data-cmd="skills"><i class="fas fa-cogs"></i> skills</span>
+                <span class="cmd-pill" data-cmd="journey"><i class="fas fa-graduation-cap"></i> journey</span>
+                <span class="cmd-pill" data-cmd="resume"><i class="fas fa-file-download"></i> resume</span>
+                <span class="cmd-pill" data-cmd="contact"><i class="fas fa-paper-plane"></i> contact</span>
+                <span class="cmd-pill" data-cmd="github"><i class="fab fa-github"></i> github</span>
+                <span class="cmd-pill" data-cmd="email"><i class="fas fa-copy"></i> copy-email</span>
+                <span class="cmd-pill" data-cmd="help"><i class="fas fa-question-circle"></i> help</span>
+                <span class="cmd-pill" data-cmd="clear"><i class="fas fa-eraser"></i> clear</span>
+            </div>
+
+            <div class="cmd-output" id="cmd-output">
+                <div class="cmd-line sys">
+                    <span class="cmd-sys-prefix">[SYSTEM]</span> Welcome to Sineth Rusira's terminal!
+                </div>
+                <div class="cmd-line sys">
+                    Type a command or click an action pill above. Try <span class="cmd-highlight">help</span>, <span class="cmd-highlight">projects</span>, or <span class="cmd-highlight">resume</span>.
+                </div>
+            </div>
+
+            <form class="cmd-input-form" id="cmd-form">
+                <span class="cmd-prompt-symbol">sineth:~$</span>
+                <input type="text" id="cmd-input" class="cmd-input" placeholder="Type a command (e.g. 'projects', 'resume', 'help')..." autocomplete="off" spellcheck="false">
+                <button type="submit" class="cmd-enter-btn" aria-label="Execute command"><i class="fas fa-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 

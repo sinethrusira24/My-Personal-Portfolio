@@ -119,10 +119,12 @@ body {
         opacity: 0;
         clip-path: inset(0 100% 0 0);
     }
+
     35% {
         opacity: 0.21;
         clip-path: inset(0 0% 0 0);
     }
+
     100% {
         opacity: 0.085;
         clip-path: inset(0 0% 0 0);
@@ -1108,7 +1110,7 @@ h3 {
 /* --- NEW: Creative Profiles Section --- */
 #profiles {
     padding: 3rem 2rem 1rem;
-    max-width: 900px;
+    max-width: 1040px;
     margin: 0 auto;
 }
 
@@ -1217,6 +1219,494 @@ h3 {
 
 .linkedin-card .profile-link-text {
     color: #0a66c2;
+}
+
+/* --- Live GitHub Stats & Purple Contribution Showcase --- */
+.github-showcase-card {
+    position: relative;
+    background: rgba(14, 10, 24, 0.72);
+    border: 1px solid rgba(168, 85, 247, 0.22);
+    border-radius: 20px;
+    padding: 2.25rem;
+    margin-top: 2.5rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.7), 0 0 35px -10px rgba(168, 85, 247, 0.15);
+    overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1;
+}
+
+.github-showcase-card:hover {
+    border-color: rgba(168, 85, 247, 0.45);
+    box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.8), 0 0 45px -8px rgba(168, 85, 247, 0.25);
+}
+
+.github-showcase-card .card-glow {
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+}
+
+.github-showcase-card:hover .card-glow {
+    width: 600px;
+    height: 600px;
+}
+
+/* Showcase Header */
+.gh-showcase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    flex-wrap: wrap;
+}
+
+.gh-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.gh-avatar-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.15));
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: #f1f5f9;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
+}
+
+.gh-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.gh-username-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.gh-username {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: -0.5px;
+}
+
+.gh-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.gh-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    animation: ghPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ghPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+    }
+}
+
+.gh-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.gh-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.55rem 1.15rem;
+    border-radius: 10px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #f1f5f9;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.gh-profile-btn:hover {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.35);
+}
+
+/* Stats Row */
+.gh-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin: 1.75rem 0 1.5rem;
+}
+
+.gh-stat-box {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(168, 85, 247, 0.14);
+    border-radius: 14px;
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.gh-stat-box:hover {
+    transform: translateY(-3px);
+    background: rgba(168, 85, 247, 0.05);
+    border-color: rgba(168, 85, 247, 0.35);
+}
+
+.gh-stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(168, 85, 247, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-primary);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.gh-stat-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.gh-stat-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f8fafc;
+    line-height: 1.15;
+}
+
+.gh-stat-lbl {
+    font-size: 0.76rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Top Languages Breakdown */
+.gh-languages-card {
+    background: rgba(255, 255, 255, 0.018);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.gh-languages-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.9rem;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.gh-lang-title {
+    color: #e2e8f0;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gh-lang-title i {
+    color: var(--accent-primary);
+}
+
+.gh-lang-status {
+    color: #94a3b8;
+    font-size: 0.78rem;
+}
+
+.gh-lang-bar-track {
+    height: 9px;
+    width: 100%;
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+    background: rgba(255, 255, 255, 0.04);
+    gap: 2px;
+    margin-bottom: 0.9rem;
+}
+
+.gh-bar-segment {
+    height: 100%;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gh-lang-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.2rem;
+}
+
+.gh-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    color: #cbd5e1;
+}
+
+.gh-pill strong {
+    color: #f8fafc;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.gh-pill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Purple Heatmap Contribution Calendar */
+.gh-calendar-wrapper {
+    position: relative;
+    background: rgba(10, 6, 18, 0.5);
+    border: 1px solid rgba(168, 85, 247, 0.12);
+    border-radius: 14px;
+    padding: 1.35rem 1.5rem;
+}
+
+.gh-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.gh-cal-title {
+    color: #e2e8f0;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gh-cal-title i {
+    color: var(--accent-secondary);
+}
+
+.gh-cal-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.74rem;
+    color: #94a3b8;
+}
+
+.legend-cell {
+    width: 11px;
+    height: 11px;
+    border-radius: 2.5px;
+    display: inline-block;
+}
+
+.gh-calendar-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 85, 247, 0.3) rgba(255, 255, 255, 0.03);
+}
+
+.gh-calendar-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.gh-calendar-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.gh-calendar-scroll::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.3);
+    border-radius: 10px;
+}
+
+.gh-calendar-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.6);
+}
+
+.gh-months-row {
+    display: grid;
+    grid-template-columns: repeat(53, 13px);
+    column-gap: 3.5px;
+    margin-left: 28px;
+    margin-bottom: 6px;
+    font-size: 0.7rem;
+    color: #64748b;
+    font-family: 'Space Mono', monospace;
+    height: 14px;
+}
+
+.gh-month-label {
+    grid-column: span 4;
+    white-space: nowrap;
+}
+
+.gh-calendar-body {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.gh-days-col {
+    display: grid;
+    grid-template-rows: repeat(7, 13px);
+    row-gap: 3.5px;
+    font-size: 0.68rem;
+    color: #64748b;
+    font-family: 'Space Mono', monospace;
+    line-height: 13px;
+    user-select: none;
+}
+
+.gh-days-col span:nth-child(1) {
+    grid-row: 2;
+}
+
+.gh-days-col span:nth-child(2) {
+    grid-row: 4;
+}
+
+.gh-days-col span:nth-child(3) {
+    grid-row: 6;
+}
+
+.gh-grid {
+    display: grid;
+    grid-template-rows: repeat(7, 13px);
+    grid-auto-flow: column;
+    grid-auto-columns: 13px;
+    gap: 3.5px;
+}
+
+/* Heatmap Cells & Purple Tiers */
+.gh-cell {
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    box-sizing: border-box;
+}
+
+.gh-cell:hover {
+    transform: scale(1.4);
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.8) !important;
+}
+
+.lvl-0 {
+    background: #140d21;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.lvl-1 {
+    background: #3b1f5e;
+    border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.lvl-2 {
+    background: #6b21a8;
+    border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.lvl-3 {
+    background: #9333ea;
+    border: 1px solid rgba(216, 180, 254, 0.5);
+    box-shadow: 0 0 6px rgba(147, 51, 234, 0.5);
+}
+
+.lvl-4 {
+    background: #c084fc;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
+}
+
+/* Floating Tooltip */
+.gh-grid-tooltip {
+    position: fixed;
+    background: #0f0a1c;
+    border: 1px solid var(--accent-primary);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.74rem;
+    color: #f8fafc;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.8), 0 0 18px rgba(168, 85, 247, 0.35);
+    opacity: 0;
+    transform: translate(-50%, -100%) translateY(-8px);
+    transition: opacity 0.15s ease;
+    white-space: nowrap;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.gh-grid-tooltip.visible {
+    opacity: 1;
+}
+
+.gh-grid-tooltip strong {
+    color: #c084fc;
+    font-weight: 700;
 }
 
 /* --- Contact Section --- */
@@ -2347,6 +2837,59 @@ footer {
 
     .profile-card p {
         font-size: 0.85rem;
+    }
+
+    /* GitHub Showcase Mobile */
+    .github-showcase-card {
+        padding: 1.5rem 1.15rem;
+        border-radius: 16px;
+        margin-top: 1.75rem;
+    }
+
+    .gh-showcase-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .gh-profile-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .gh-stats-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .gh-stat-box {
+        padding: 0.85rem 0.9rem;
+        gap: 0.65rem;
+    }
+
+    .gh-stat-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .gh-stat-val {
+        font-size: 1.25rem;
+    }
+
+    .gh-stat-lbl {
+        font-size: 0.68rem;
+    }
+
+    .gh-languages-card,
+    .gh-calendar-wrapper {
+        padding: 1rem 1.1rem;
+        border-radius: 12px;
+    }
+
+    .gh-lang-title,
+    .gh-cal-title {
+        font-size: 0.82rem;
     }
 
     /* Contact Section Mobile */

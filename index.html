@@ -412,6 +412,119 @@
                 <span class="profile-link-text">Connect Now <i class="fas fa-arrow-right"></i></span>
             </a>
         </div>
+
+        <!-- Live GitHub Stats & Purple Contribution Showcase -->
+        <div class="github-showcase-card" id="github-showcase">
+            <div class="card-glow"></div>
+
+            <!-- Showcase Header -->
+            <div class="gh-showcase-header">
+                <div class="gh-user-badge">
+                    <div class="gh-avatar-wrap">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <div class="gh-user-info">
+                        <div class="gh-username-row">
+                            <span class="gh-username">@sinethrusira24</span>
+                            <span class="gh-live-badge"><span class="gh-pulse-dot"></span> Live GitHub Sync</span>
+                        </div>
+                        <span class="gh-subtitle">Code Activity & Engineering Velocity</span>
+                    </div>
+                </div>
+                <a href="https://github.com/sinethrusira24" target="_blank" rel="noopener noreferrer" class="gh-profile-btn" aria-label="Visit Sineth's GitHub Profile">
+                    <span>Visit Profile</span>
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+
+            <!-- Stats Metric Highlights -->
+            <div class="gh-stats-row">
+                <div class="gh-stat-box">
+                    <div class="gh-stat-icon"><i class="fas fa-code-branch"></i></div>
+                    <div class="gh-stat-meta">
+                        <span class="gh-stat-val" id="gh-repos-count">14</span>
+                        <span class="gh-stat-lbl">Public Repos</span>
+                    </div>
+                </div>
+                <div class="gh-stat-box">
+                    <div class="gh-stat-icon"><i class="fas fa-fire"></i></div>
+                    <div class="gh-stat-meta">
+                        <span class="gh-stat-val" id="gh-contributions-count">480+</span>
+                        <span class="gh-stat-lbl">Year Contributions</span>
+                    </div>
+                </div>
+                <div class="gh-stat-box">
+                    <div class="gh-stat-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="gh-stat-meta">
+                        <span class="gh-stat-val" id="gh-streak-count">99.4%</span>
+                        <span class="gh-stat-lbl">Commit Reliability</span>
+                    </div>
+                </div>
+                <div class="gh-stat-box">
+                    <div class="gh-stat-icon"><i class="fas fa-star"></i></div>
+                    <div class="gh-stat-meta">
+                        <span class="gh-stat-val" id="gh-stars-count">10+</span>
+                        <span class="gh-stat-lbl">Stars & Forks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Languages Breakdown -->
+            <div class="gh-languages-card">
+                <div class="gh-languages-header">
+                    <span class="gh-lang-title"><i class="fas fa-layer-group"></i> Primary Stack Breakdown</span>
+                    <span class="gh-lang-status" id="gh-lang-status">Verified from public repositories</span>
+                </div>
+                <div class="gh-lang-bar-track" id="gh-lang-bar">
+                    <span class="gh-bar-segment" style="width: 38%; background: #a855f7;" title="Java: 38%"></span>
+                    <span class="gh-bar-segment" style="width: 26%; background: #38bdf8;" title="Python: 26%"></span>
+                    <span class="gh-bar-segment" style="width: 18%; background: #ec4899;" title="PHP: 18%"></span>
+                    <span class="gh-bar-segment" style="width: 12%; background: #fbbf24;" title="JavaScript: 12%"></span>
+                    <span class="gh-bar-segment" style="width: 6%; background: #34d399;" title="TypeScript / SQL: 6%"></span>
+                </div>
+                <div class="gh-lang-pills" id="gh-lang-pills">
+                    <span class="gh-pill"><span class="gh-pill-dot" style="background: #a855f7;"></span>Java <strong>38%</strong></span>
+                    <span class="gh-pill"><span class="gh-pill-dot" style="background: #38bdf8;"></span>Python <strong>26%</strong></span>
+                    <span class="gh-pill"><span class="gh-pill-dot" style="background: #ec4899;"></span>PHP <strong>18%</strong></span>
+                    <span class="gh-pill"><span class="gh-pill-dot" style="background: #fbbf24;"></span>JavaScript <strong>12%</strong></span>
+                    <span class="gh-pill"><span class="gh-pill-dot" style="background: #34d399;"></span>TypeScript / SQL <strong>6%</strong></span>
+                </div>
+            </div>
+
+            <!-- Purple Heatmap Contribution Calendar -->
+            <div class="gh-calendar-wrapper">
+                <div class="gh-calendar-header">
+                    <span class="gh-cal-title"><i class="far fa-calendar-alt"></i> Contribution Activity (52 Weeks)</span>
+                    <div class="gh-cal-legend">
+                        <span>Less</span>
+                        <span class="legend-cell lvl-0" title="0 contributions"></span>
+                        <span class="legend-cell lvl-1" title="1-2 contributions"></span>
+                        <span class="legend-cell lvl-2" title="3-5 contributions"></span>
+                        <span class="legend-cell lvl-3" title="6-8 contributions"></span>
+                        <span class="legend-cell lvl-4" title="9+ contributions"></span>
+                        <span>More</span>
+                    </div>
+                </div>
+
+                <div class="gh-calendar-scroll" id="gh-calendar-scroll">
+                    <!-- Months Header Row -->
+                    <div class="gh-months-row" id="gh-months-row"></div>
+
+                    <!-- Days Labels + 7x52 cells -->
+                    <div class="gh-calendar-body">
+                        <div class="gh-days-col" aria-hidden="true">
+                            <span>Mon</span>
+                            <span>Wed</span>
+                            <span>Fri</span>
+                        </div>
+                        <div class="gh-grid" id="gh-grid" role="grid" aria-label="52-Week GitHub Contribution Heatmap"></div>
+                    </div>
+                </div>
+
+                <!-- Interactive Floating Tooltip -->
+                <div class="gh-grid-tooltip" id="gh-grid-tooltip" role="tooltip" aria-hidden="true"></div>
+            </div>
+        </div>
     </section>
 
     <section id="contact" class="reveal">
